@@ -34,7 +34,7 @@ public class MyChatServerHandler extends SimpleChannelInboundHandler<String> {
                 c.writeAndFlush("来自【" + channel.remoteAddress() + "】的消息: " + msg + "\n");
             }
             else{
-                c.writeAndFlush("来自【自己】的消息: " + msg);
+                c.writeAndFlush("来自【自己】的消息: " + msg + "\n");
             }
         });
     }

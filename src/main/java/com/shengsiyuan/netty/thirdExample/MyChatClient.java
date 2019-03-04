@@ -4,10 +4,7 @@
 package com.shengsiyuan.netty.thirdExample;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -16,6 +13,10 @@ import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * MyChatClient
@@ -26,7 +27,7 @@ import io.netty.util.CharsetUtil;
 
 public class MyChatClient {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException {
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.group(eventLoopGroup).channel(NioSocketChannel.class).handler(new ChannelInitializer<SocketChannel>() {
@@ -41,8 +42,14 @@ public class MyChatClient {
             }
         });
 
-        ChannelFuture channelFuture = bootstrap.connect("localhost",8899).sync();
-        channelFuture.channel().closeFuture().sync();
+        Channel ch = bootstrap.connect("localhost", 8899).sync().channel();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        while (true) {
+            ch.writeAndFlush(reader.readLine() + "\r\n");
+        }
+
+
     }
 
 }

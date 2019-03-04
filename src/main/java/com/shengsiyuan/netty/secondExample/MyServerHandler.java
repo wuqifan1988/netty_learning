@@ -9,7 +9,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.concurrent.EventExecutorGroup;
 
 /**
- * MyServerHandler
+ * TestWebSocketFrameHandler
  *
  * @author huaishi
  * @since 2019-02-11
